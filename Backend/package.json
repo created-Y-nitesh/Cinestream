@@ -1,0 +1,14 @@
+{
+  "name": "cinestream-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "CineStream API — Google Sheets ko video catalog REST API me badalta hai. Vercel serverless ke liye.",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "scripts": {
+    "dev": "node local-server.js",
+    "start": "node local-server.js"
+  }
+}
