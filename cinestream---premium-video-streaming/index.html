@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!--
+      viewport-fit=cover: iPhone ke notch/home-indicator wale area tak background
+      faile, aur CSS ka env(safe-area-inset-*) kaam kare.
+      maximum-scale nahi diya gaya — accessibility ke liye zoom allow rehna chahiye.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <title>CineStream — Movies &amp; Web Series Streaming</title>
+    <meta name="description" content="Movies aur web series HD me stream karein — mobile friendly, fast aur free." />
+
+    <!-- Mobile browser UI ka color (dark/light dono ke liye) -->
+    <meta name="theme-color" content="#0a0507" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbf5f6" media="(prefers-color-scheme: light)" />
+
+    <!-- Android/iOS home screen par app jaisa behave kare -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="CineStream" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Social share preview -->
+    <meta property="og:title" content="CineStream — Movies &amp; Web Series Streaming" />
+    <meta property="og:description" content="Movies aur web series HD me stream karein — mobile friendly, fast aur free." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/icon.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!--
+      Fonts: preconnect se mobile par pehla render ~100-200ms jaldi hota hai.
+      display=swap zaroori hai — warna text font aane tak invisible rehta hai.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+    <!-- Landing hero image — sabse badi image, isliye pehle se load (src/config/hero.ts ka version match rakho) -->
+    <link rel="preload" as="image" href="/hero-background.jpg?v=1" fetchpriority="high" />
+
+    <!-- Google Drive thumbnails/streams — DNS pehle se resolve ho jaye -->
+    <link rel="dns-prefetch" href="https://drive.google.com">
+    <link rel="preconnect" href="https://drive.google.com" crossorigin>
+
+    <script>
+      // JS bundle load hone se PEHLE theme lagao, warna dark mode users ko
+      // ek white flash dikhta hai (FOUC). ThemeContext isi key ko padhta hai.
+      (function () {
+        try {
+          var saved = localStorage.getItem('cinestream_theme') || 'dark';
+          var dark = saved === 'dark' ||
+            (saved === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          var root = document.documentElement;
+          root.classList.add(dark ? 'dark' : 'light');
+          root.style.colorScheme = dark ? 'dark' : 'light';
+          root.style.backgroundColor = dark ? '#0a0507' : '#fbf5f6';
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="antialiased selection:bg-crimson-600 selection:text-white">
+    <div id="root"></div>
+    <noscript>
+      <div style="padding:24px;font-family:system-ui,sans-serif;color:#fff;background:#0a0507">
+        CineStream chalane ke liye JavaScript enable karna zaroori hai.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,344 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   THEME VARIANTS
+   Tailwind v4 me `dark:` default me prefers-color-scheme use karta hai, lekin
+   ThemeContext <html> par .dark / .light class lagata hai. In do lines ke bina
+   theme toggle kaam nahi karta aur saare `light:` classes dead hote hain.
+--------------------------------------------------------------------------- */
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  /* Romantic, cinematic serif sirf headings/logo ke liye — body text sans hi rehta hai */
+  --font-display: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+
+  /* ---- CRIMSON — main accent (buttons, active states, glows) ---- */
+  --color-crimson-50: #fff1f3;
+  --color-crimson-100: #ffe0e5;
+  --color-crimson-200: #ffc5cf;
+  --color-crimson-300: #ff9aab;
+  --color-crimson-400: #ff5e7a;
+  --color-crimson-500: #f5304f;
+  --color-crimson-600: #dc143c;
+  --color-crimson-700: #b80f32;
+  --color-crimson-800: #960f2e;
+  --color-crimson-900: #7c112c;
+  --color-crimson-950: #460413;
+
+  /* ---- WINE — deep burgundy/plum, gradients ka doosra sira ---- */
+  --color-wine-50: #fdf2f6;
+  --color-wine-100: #fbe4ec;
+  --color-wine-200: #f6c6d7;
+  --color-wine-300: #e8a3b8;
+  --color-wine-400: #d06a8c;
+  --color-wine-500: #b8456b;
+  --color-wine-600: #9b2c55;
+  --color-wine-700: #7f2147;
+  --color-wine-800: #5f1836;
+  --color-wine-900: #3f0f24;
+  --color-wine-950: #26071a;
+
+  /* ---- Surfaces: neutral black ki jagah warm wine-black ---- */
+  --color-cinema-black: #0a0507;
+  --color-cinema-surface: #150a0e;
+  --color-cinema-surface-elevated: #1d0f14;
+  --color-cinema-border: rgba(255, 200, 210, 0.08);
+  --color-cinema-accent: #dc143c;
+  --color-cinema-accent-blue: #7f2147;
+
+  --color-day-bg: #fbf5f6;
+  --color-day-surface: rgba(255, 255, 255, 0.85);
+  --color-day-surface-elevated: #ffffff;
+  --color-day-border: rgba(124, 17, 44, 0.1);
+  --color-day-accent: #dc143c;
+
+  /* Extra chhota breakpoint — 360px wale phones ke liye */
+  --breakpoint-xs: 24rem;
+
+  /* ---- Animations ---- */
+  --animate-heartbeat: heartbeat 2.6s ease-in-out infinite;
+  --animate-drift: drift 22s ease-in-out infinite;
+  --animate-drift-slow: drift-slow 30s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 3.2s ease-in-out infinite;
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.18); }
+    24% { transform: scale(1); }
+    36% { transform: scale(1.1); }
+    52% { transform: scale(1); }
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33% { transform: translate3d(60px, -40px, 0) scale(1.08); }
+    66% { transform: translate3d(-40px, 30px, 0) scale(0.95); }
+  }
+
+  @keyframes drift-slow {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-80px, 50px, 0) scale(1.12); }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 10px 30px -8px rgb(220 20 60 / 0.45), 0 0 0 0 rgb(245 48 79 / 0.35); }
+    50% { box-shadow: 0 14px 44px -8px rgb(220 20 60 / 0.7), 0 0 0 6px rgb(245 48 79 / 0); }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   GLASS TOKENS
+   Theme ke hisaab se badalte hain, isliye `glass-*` utilities dark aur light
+   dono me sahi dikhti hain bina har jagah `light:` likhe.
+--------------------------------------------------------------------------- */
+:root,
+.dark {
+  --glass-base: rgb(21 10 14 / 0.55);
+  --glass-tint: linear-gradient(145deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.015));
+  --glass-border: rgb(255 214 222 / 0.09);
+  --glass-highlight: rgb(255 255 255 / 0.07);
+  --glass-shadow: 0 18px 50px -22px rgb(0 0 0 / 0.8);
+
+  --glass-red-base: rgb(30 8 14 / 0.6);
+  --glass-red-tint: linear-gradient(145deg, rgb(220 20 60 / 0.22), rgb(124 17 44 / 0.12) 55%, rgb(255 255 255 / 0.02));
+  --glass-red-border: rgb(255 94 122 / 0.24);
+  --glass-red-highlight: rgb(255 197 207 / 0.14);
+  --glass-red-shadow: 0 22px 60px -26px rgb(220 20 60 / 0.6);
+
+  /* Bottom nav ke peeche scroll hota text padhne layak na dikhe — isliye .78 */
+  --glass-bar-base: rgb(10 5 7 / 0.78);
+  --glass-bar-border: rgb(245 48 79 / 0.16);
+
+  --romance-gradient: linear-gradient(100deg, #fff1f3 0%, #ffc5cf 30%, #ff5e7a 62%, #dc143c 100%);
+  --scroll-thumb: rgb(220 20 60 / 0.35);
+  --scroll-thumb-hover: rgb(245 48 79 / 0.6);
+}
+
+.light {
+  --glass-base: rgb(255 255 255 / 0.62);
+  --glass-tint: linear-gradient(145deg, rgb(255 255 255 / 0.7), rgb(255 241 243 / 0.35));
+  --glass-border: rgb(124 17 44 / 0.1);
+  --glass-highlight: rgb(255 255 255 / 0.9);
+  --glass-shadow: 0 18px 40px -24px rgb(124 17 44 / 0.25);
+
+  --glass-red-base: rgb(255 245 247 / 0.72);
+  --glass-red-tint: linear-gradient(145deg, rgb(220 20 60 / 0.1), rgb(255 255 255 / 0.4));
+  --glass-red-border: rgb(220 20 60 / 0.2);
+  --glass-red-highlight: rgb(255 255 255 / 0.9);
+  --glass-red-shadow: 0 20px 44px -26px rgb(220 20 60 / 0.35);
+
+  --glass-bar-base: rgb(251 245 246 / 0.75);
+  --glass-bar-border: rgb(220 20 60 / 0.14);
+
+  --romance-gradient: linear-gradient(100deg, #7c112c 0%, #b80f32 45%, #dc143c 100%);
+  --scroll-thumb: rgb(220 20 60 / 0.25);
+  --scroll-thumb-hover: rgb(220 20 60 / 0.45);
+}
+
+/* Neutral frosted glass — panels, cards par */
+@utility glass {
+  background-color: var(--glass-base);
+  background-image: var(--glass-tint);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+}
+
+/* Red-tinted glass — highlight wali jagah (modal, active episode, player bar) */
+@utility glass-red {
+  background-color: var(--glass-red-base);
+  background-image: var(--glass-red-tint);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid var(--glass-red-border);
+  box-shadow: inset 0 1px 0 var(--glass-red-highlight), var(--glass-red-shadow);
+}
+
+/* Blur ke bina halka glass — grid me 50 cards par blur mobile GPU ko slow karta hai */
+@utility glass-soft {
+  background-color: var(--glass-base);
+  background-image: var(--glass-tint);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+
+/* Hamesha dark red glass — images ke upar (hero buttons, player controls) */
+@utility glass-ember {
+  background-color: rgb(20 6 10 / 0.45);
+  background-image: linear-gradient(145deg, rgb(220 20 60 / 0.18), rgb(255 255 255 / 0.03));
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgb(255 154 171 / 0.22);
+  box-shadow: inset 0 1px 0 rgb(255 197 207 / 0.12), 0 12px 32px -14px rgb(0 0 0 / 0.7);
+}
+
+/* Navbar (neeche crimson hairline ke saath) */
+@utility glass-bar {
+  background-color: var(--glass-bar-base);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border-bottom: 1px solid var(--glass-bar-border);
+  box-shadow: 0 10px 40px -20px rgb(220 20 60 / 0.35);
+}
+
+/* Mobile bottom nav + footer (upar crimson hairline) */
+@utility glass-dock {
+  background-color: var(--glass-bar-base);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border-top: 1px solid var(--glass-bar-border);
+  box-shadow: 0 -10px 40px -20px rgb(220 20 60 / 0.3);
+}
+
+/*
+  Hero background ko neeche se transparent me ghola deta hai (sirf dark mode),
+  taki hero aur page ki crimson glow ke beech seedhi line/band na dikhe.
+  Light mode me hero ek dark "island" rehta hai, isliye wahan mask nahi.
+*/
+.dark .hero-bg-mask {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+}
+
+/* Blush → crimson gradient text */
+@utility romance-text {
+  background-image: var(--romance-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@layer base {
+  html {
+    /* Mobile par address bar chhupne se layout jump na ho */
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    /* Koi bhi wide element horizontal scroll na banaye */
+    overflow-x: hidden;
+    transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Serif headings thode tight aur elegant */
+  .font-display {
+    letter-spacing: -0.01em;
+    font-optical-sizing: auto;
+  }
+
+  ::selection {
+    background-color: var(--color-crimson-600);
+    color: #fff;
+  }
+
+  /* Mobile par tap karte waqt neela flash na aaye */
+  a, button, [role='button'] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Touch devices par minimum 40px tap target */
+  @media (hover: none) and (pointer: coarse) {
+    button, a[role='button'], .tap-target {
+      min-height: 40px;
+    }
+  }
+
+  /* iOS par input focus hone par zoom na kare (16px minimum) */
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  @media (min-width: 640px) {
+    input, select, textarea {
+      font-size: inherit;
+    }
+  }
+
+  /* Native select/range controls bhi crimson */
+  input, select, textarea, progress {
+    accent-color: var(--color-crimson-600);
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+@layer utilities {
+  /* iPhone ke home-indicator ke liye bottom nav me safe padding */
+  .safe-bottom {
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Mobile bottom nav ke peeche content chhup na jaye */
+  .pb-mobile-nav {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (min-width: 768px) {
+    .pb-mobile-nav {
+      padding-bottom: 0;
+    }
+  }
+
+  /* Horizontal shelves par snap scrolling — mobile par bahut behtar lagta hai */
+  .snap-row {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .snap-item {
+    scroll-snap-align: start;
+  }
+}
+
+/* Crimson scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
+}
+
+/* Hide scrollbar for clean horizontal video rows */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

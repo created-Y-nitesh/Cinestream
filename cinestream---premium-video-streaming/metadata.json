@@ -1,0 +1,6 @@
+{
+  "name": "CineStream - Premium Video Streaming",
+  "description": "A next-generation, cinematic video streaming platform frontend with configurable REST API integration, Google Drive player support, dynamic theming, and smooth motion.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

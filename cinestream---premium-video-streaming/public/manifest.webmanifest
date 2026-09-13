@@ -1,0 +1,19 @@
+{
+  "name": "CineStream",
+  "short_name": "CineStream",
+  "description": "Movies aur web series — seedha Google Drive se stream.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0507",
+  "theme_color": "#0a0507",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
